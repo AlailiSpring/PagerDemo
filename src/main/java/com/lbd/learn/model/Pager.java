@@ -1,4 +1,4 @@
-package com.lbd.learn;
+package com.lbd.learn.model;
 
 import java.io.Serializable;
 import java.util.List;

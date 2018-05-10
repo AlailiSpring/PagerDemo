@@ -6,7 +6,7 @@
     
     <servlet>
         <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>com.lbd.learn.HelloServlet</servlet-class>
+        <servlet-class>com.lbd.learn.controller.HelloServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
