@@ -66,6 +66,10 @@ public class Student implements Serializable{
                 '}';
     }
 
+    public Student() {
+
+    }
+
     public Student(int id, String stuName, int age, int gender, String address) {
         this.id = id;
         this.stuName = stuName;

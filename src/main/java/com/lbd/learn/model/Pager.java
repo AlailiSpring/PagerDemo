@@ -25,6 +25,29 @@ public class Pager<T> implements Serializable {
     public Pager() {
     }
 
+    /**
+     * 构造函数完成分页（subList分页）
+     * @param pageSize
+     * @param pageNum
+     * @param sourceList
+     */
+    public Pager(int pageSize, int pageNum, List<T> sourceList) {
+        if (null == sourceList) {
+            return;
+        }
+        this.pageSize = pageSize;
+        this.totalRecord = sourceList.size();
+        this.totalPage = this.totalRecord / this.pageSize;
+        this.currentPage = this.totalPage > pageNum ? pageNum : this.totalPage;
+
+        /*起始索引*/
+        int fromIndex = this.pageSize * (this.currentPage - 1);
+        /*结束索引*/
+        int endIndex = this.pageSize * this.currentPage > this.totalPage ? this.totalPage : this.pageSize * this.currentPage;
+
+        this.dataList = sourceList.subList(fromIndex, endIndex);
+    }
+
     public Pager(int currentPage, int totalPage, int pageSize, int totalRecord, List<T> dataList) {
         this.currentPage = currentPage;
         this.totalPage = totalPage;
