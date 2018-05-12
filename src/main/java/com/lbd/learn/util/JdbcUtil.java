@@ -40,10 +40,10 @@ public class JdbcUtil {
                     .getResourceAsStream("/jdbc.properties");
             Properties prop = new Properties();
             prop.load(inStream);
-            USERNAME = prop.getProperty("jdbc.username");
-            PASSWORD = prop.getProperty("jdbc.password");
-            DRIVER= prop.getProperty("jdbc.driver");
-            URL = prop.getProperty("jdbc.url");
+            USERNAME = prop.getProperty("jdbc.username").trim();
+            PASSWORD = prop.getProperty("jdbc.password").trim();
+            DRIVER= prop.getProperty("jdbc.driver").trim();
+            URL = prop.getProperty("jdbc.url").trim();
         } catch (Exception e) {
             throw new RuntimeException("读取数据库配置文件异常！", e);
         }

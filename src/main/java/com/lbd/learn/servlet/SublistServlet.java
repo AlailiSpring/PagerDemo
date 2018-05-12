@@ -1,9 +1,11 @@
 package com.lbd.learn.servlet;
 
+import com.lbd.learn.model.Constant;
 import com.lbd.learn.model.Pager;
 import com.lbd.learn.model.Student;
 import com.lbd.learn.service.StudentService;
 import com.lbd.learn.service.StudentServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,9 +28,23 @@ public class SublistServlet extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         /*接收request里面的参数*/
         String stuName = req.getParameter("stuName");
-        int gender = Integer.parseInt(req.getParameter("gender"));
-        int pageNum = Integer.parseInt(req.getParameter("pageNum"));
-        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        String genderStr = req.getParameter("gender");
+        String pageNumStr = req.getParameter("pageNum");
+        String pageSizeStr = req.getParameter("pageSize");
+
+        int gender = Constant.DEFAULT_GENDER;
+        int pageNum = Constant.DEFAULT_PAGENUM;
+        int pageSize = Constant.DEFAULT_PAGESIZE;
+
+        if (StringUtils.isNotEmpty(genderStr)) {
+            gender = Integer.parseInt(genderStr);
+        }
+        if (StringUtils.isNotEmpty(pageNumStr)) {
+            pageNum = Integer.parseInt(pageNumStr);
+        }
+        if (StringUtils.isNotEmpty(pageSizeStr)) {
+            pageSize = Integer.parseInt(pageSizeStr);
+        }
 
         Student searchModel = new Student();
         searchModel.setStuName(stuName);
