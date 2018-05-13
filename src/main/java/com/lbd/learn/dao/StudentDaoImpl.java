@@ -29,7 +29,7 @@ public class StudentDaoImpl implements StudentDao {
         sql.append("select * from t_student where 1=1 ");
         if (StringUtils.isNotEmpty(stuName)) {
             sql.append(" and stu_name like ? ");
-            paramList.add(stuName);
+            paramList.add("%"+stuName.trim()+"%");
         }
         if (gender == Constant.GENDER_FAMALE || gender == Constant.GENDER_MALE) {
             sql.append(" and gender=? ");

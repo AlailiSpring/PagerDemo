@@ -6,7 +6,8 @@
   Time: 上午1:07
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -17,13 +18,74 @@
         String context = request.getContextPath();
     %>
     <script type="text/javascript">
-        function submitForm() {
+        // 当前第几页数据
+        var currentPage = ${result.currentPage};
+        // 总页数
+        var totalPage = ${result.totalPage};
+        function submitForm(url) {
             var forElement = document.getElementById("stuForm");
+            if(null!=url&&""!=url&&undefined!=url) {
+                forElement.action=url;
+            }
             forElement.submit();
+        }
+        function firstPage() {
+            if(currentPage == 1){
+                alert("已经是第一页数据");
+                return false;
+            }else{
+                submitForm("<%=context %>/sublist/sublistServlet?pageNum=1");
+                return true;
+            }
+        }
+        function nextPage() {
+            if(currentPage == totalPage){
+                alert("已经是最后一页数据");
+                return false;
+            }else{
+                submitForm("<%=context %>/sublist/sublistServlet?pageNum=" + (currentPage+1));
+                return true;
+            }
+        }
+        function previousPage() {
+            if(currentPage == 1){
+                alert("已经是第一页数据");
+                return false;
+            }else{
+                submitForm("<%=context %>/sublist/sublistServlet?pageNum=" + (currentPage-1));
+                return true;
+            }
+        }
+        function lastPage() {
+            if(currentPage == totalPage){
+                alert("已经是最后一页数据");
+                return false;
+            }else{
+                submitForm("<%=context %>/sublist/sublistServlet?pageNum=${result.totalPage}");
+                return true;
+            }
+        }
+        function initPage() {
+            var genderRequest = "${gender}";
+            var genderVal=0;
+            var genderElement = document.getElementById("gender");
+            if(genderRequest!=""){
+                genderVal = parseInt(genderRequest);
+            }
+
+            var options = genderElement.options;
+            var i=0;
+            for(i=0;i<options.length;i++) {
+                if(options[i].value==genderVal) {
+                    options[i].selected = true;
+                    break;
+                }
+            }
+            
         }
     </script>
 </head>
-<body>
+<body onload="initPage();">
 <div style="margin-left: 100px; margin-top: 100px;">
     <div>
         <font color="red">${errorMsg }</font>

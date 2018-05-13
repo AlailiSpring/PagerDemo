@@ -5,6 +5,7 @@ import com.lbd.learn.model.Pager;
 import com.lbd.learn.model.Student;
 import com.lbd.learn.service.StudentService;
 import com.lbd.learn.service.StudentServiceImpl;
+import com.lbd.learn.util.StringCheckUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
@@ -40,7 +41,15 @@ public class SublistServlet extends HttpServlet{
             gender = Integer.parseInt(genderStr);
         }
         if (StringUtils.isNotEmpty(pageNumStr)) {
-            pageNum = Integer.parseInt(pageNumStr);
+            if(!StringCheckUtil.checkIsNum(pageNumStr)){
+                String errorMsg = "参数错误！";
+                req.setAttribute("errorMsg", errorMsg);
+                /*跳转*/
+                req.getRequestDispatcher("/jsp/sublistStudent.jsp").forward(req, resp);
+                return;
+            }else{
+                pageNum = Integer.parseInt(pageNumStr);
+            }
         }
         if (StringUtils.isNotEmpty(pageSizeStr)) {
             pageSize = Integer.parseInt(pageSizeStr);
@@ -52,6 +61,7 @@ public class SublistServlet extends HttpServlet{
 
         Pager<Student> studentPager = studentService.findStudent(searchModel, pageNum, pageSize);
         req.setAttribute("result", studentPager);
+        req.setAttribute("gender",gender);
 
         /*跳转*/
         req.getRequestDispatcher("/jsp/sublistStudent.jsp").forward(req, resp);

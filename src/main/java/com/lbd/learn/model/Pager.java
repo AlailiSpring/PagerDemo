@@ -36,8 +36,13 @@ public class Pager<T> implements Serializable {
             return;
         }
         this.pageSize = pageSize;
+
         this.totalRecord = sourceList.size();
+
         this.totalPage = this.totalRecord / this.pageSize;
+        if(this.totalRecord % this.pageSize !=0){
+            this.totalPage = this.totalPage + 1;
+        }
         this.currentPage = this.totalPage > pageNum ? pageNum : this.totalPage;
 
         /*起始索引*/
