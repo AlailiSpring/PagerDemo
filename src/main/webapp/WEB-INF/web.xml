@@ -22,4 +22,12 @@
         <servlet-name>sublistServlet</servlet-name>
         <url-pattern>/sublist/sublistServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>jdbcSqlServlet</servlet-name>
+        <servlet-class>com.lbd.learn.servlet.JdbcSqlServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jdbcSqlServlet</servlet-name>
+        <url-pattern>/sublist/jdbcSqlServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

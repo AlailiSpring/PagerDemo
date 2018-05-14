@@ -11,42 +11,57 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class StudentDaoImpl implements StudentDao {
+/**
+ * 使用mysqlS数据库limit关键字实现分页
+ */
+public class JdbcSqlStudentDaoImpl implements StudentDao {
     @Override
     public Pager<Student> findStudent(Student searchModel, int pageNum, int pageSize) {
-        List<Student> studentList = getAllStudent(searchModel);
-        Pager<Student> studentPager = new Pager<Student>(pageSize, pageNum, studentList);
-        return studentPager;
-    }
-
-    public List<Student> getAllStudent(Student searchModel) {
-        List<Student> result = new ArrayList<Student>();
+        Pager<Student> result = null;
         List<Object> paramList = new ArrayList<Object>();
         String stuName = searchModel.getStuName();
         int gender = searchModel.getGender();
 
         StringBuilder sql = new StringBuilder();
+        StringBuilder countSql = new StringBuilder();
         sql.append("select * from t_student where 1=1 ");
+        countSql.append("select count(id) as totalRecord from t_student where 1=1");
         if (StringUtils.isNotEmpty(stuName)) {
             sql.append(" and stu_name like ? ");
+            countSql.append(" and stu_name like ? ");
             paramList.add("%"+stuName.trim()+"%");
         }
         if (gender == Constant.GENDER_FAMALE || gender == Constant.GENDER_MALE) {
             sql.append(" and gender=? ");
+            countSql.append(" and gender=? ");
             paramList.add(gender);
         }
 
+        int fromIndex = pageSize * (pageNum - 1);
+        countSql.append(" limit " + fromIndex + " , " + pageSize);
+
         JdbcUtil jdbcUtil = null;
+        List<Student> studentList = null;
         try {
             jdbcUtil = new JdbcUtil();
             jdbcUtil.getConnection();
+            List<Map<String, Object>> countMapList = jdbcUtil.findResult(countSql.toString().toUpperCase(), paramList);
+            /*总记录数*/
+            int totalRecord=((Number)countMapList.get(0).get("totalRecord")).intValue();
+            /*获取总页数*/
+            int totalPage = totalRecord / pageSize;
+            if(totalRecord % pageSize !=0){
+                totalPage = totalPage + 1;
+            }
             List<Map<String, Object>> mapList = jdbcUtil.findResult(sql.toString().toUpperCase(), paramList);
             if (mapList != null && mapList.size() > 0) {
                 for (Map<String, Object> item : mapList) {
                     Student student = new Student(item);
-                    result.add(student);
+                    studentList.add(student);
                 }
             }
+            /*组织Pager对象*/
+            result = new Pager<Student>(pageNum,totalPage,pageSize,totalRecord,studentList);
         } catch (SQLException e) {
             throw new RuntimeException("查询所有数据出错", e);
         }finally {

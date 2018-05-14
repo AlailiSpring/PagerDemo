@@ -3,6 +3,7 @@ package com.lbd.learn.servlet;
 import com.lbd.learn.model.Constant;
 import com.lbd.learn.model.Pager;
 import com.lbd.learn.model.Student;
+import com.lbd.learn.service.JdbcSqlStudentServiceImpl;
 import com.lbd.learn.service.StudentService;
 import com.lbd.learn.service.SublistStudentServiceImpl;
 import com.lbd.learn.util.StringCheckUtil;
@@ -14,11 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class SublistServlet extends HttpServlet{
+public class JdbcSqlServlet extends HttpServlet{
 
-    private static final long serialVersionUID = 8214914943472668786L;
-
-    private StudentService studentService = new SublistStudentServiceImpl();
+    private static final long serialVersionUID = 505411285335495035L;
+    private StudentService studentService = new JdbcSqlStudentServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,7 +45,7 @@ public class SublistServlet extends HttpServlet{
                 String errorMsg = "参数错误！";
                 req.setAttribute("errorMsg", errorMsg);
                 /*跳转*/
-                req.getRequestDispatcher("/jsp/sublistStudent.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/jdbcSqlStudent.jsp").forward(req, resp);
                 return;
             }else{
                 pageNum = Integer.parseInt(pageNumStr);
@@ -64,6 +64,6 @@ public class SublistServlet extends HttpServlet{
         req.setAttribute("gender",gender);
 
         /*跳转*/
-        req.getRequestDispatcher("/jsp/sublistStudent.jsp").forward(req, resp);
+        req.getRequestDispatcher("/jsp/jdbcSqlStudent.jsp").forward(req, resp);
     }
 }
