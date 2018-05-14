@@ -28,6 +28,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>jdbcSqlServlet</servlet-name>
-        <url-pattern>/sublist/jdbcSqlServlet</url-pattern>
+        <url-pattern>/jdbcSql/jdbcSqlServlet</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -38,16 +38,17 @@ public class JdbcSqlStudentDaoImpl implements StudentDao {
         }
 
         int fromIndex = pageSize * (pageNum - 1);
-        countSql.append(" limit " + fromIndex + " , " + pageSize);
+        sql.append(" limit " + fromIndex + " , " + pageSize);
 
         JdbcUtil jdbcUtil = null;
-        List<Student> studentList = null;
+        List<Student> studentList = new ArrayList<Student>();
         try {
             jdbcUtil = new JdbcUtil();
             jdbcUtil.getConnection();
-            List<Map<String, Object>> countMapList = jdbcUtil.findResult(countSql.toString().toUpperCase(), paramList);
+            List<Map<String, Object>> countResult = jdbcUtil.findResult(countSql.toString(), paramList);
+            Map<String, Object> countMap = countResult.get(0);
             /*总记录数*/
-            int totalRecord=((Number)countMapList.get(0).get("totalRecord")).intValue();
+            int totalRecord = ((Number)countMap.get("totalRecord")).intValue();
             /*获取总页数*/
             int totalPage = totalRecord / pageSize;
             if(totalRecord % pageSize !=0){
