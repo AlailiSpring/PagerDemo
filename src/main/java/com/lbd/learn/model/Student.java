@@ -1,8 +1,16 @@
 package com.lbd.learn.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Map;
 
+@Entity
+@Table(name="t_student")
 public class Student implements Serializable{
     private static final long serialVersionUID = 3358099594343455083L;
     //学生id
@@ -16,6 +24,9 @@ public class Student implements Serializable{
     //学生住址
     private String address;
 
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment",strategy = "increment")
     public int getId() {
         return id;
     }
