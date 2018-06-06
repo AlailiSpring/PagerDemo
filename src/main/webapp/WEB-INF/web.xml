@@ -30,4 +30,12 @@
         <servlet-name>jdbcSqlServlet</servlet-name>
         <url-pattern>/jdbcSql/jdbcSqlServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>cryptoServlet</servlet-name>
+        <servlet-class>com.lbd.learn.servlet.CryptoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cryptoServlet</servlet-name>
+        <url-pattern>/cryptoServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

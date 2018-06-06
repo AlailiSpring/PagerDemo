@@ -40,4 +40,8 @@ dependencies {
     compile group: 'org.jboss.logging', name: 'jboss-logging', version: '3.3.0.Final'
     // https://mvnrepository.com/artifact/org.jboss.spec.javax.transaction/jboss-transaction-api_1.2_spec
     compile group: 'org.jboss.spec.javax.transaction', name: 'jboss-transaction-api_1.2_spec', version: '1.0.1.Final'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
 }
